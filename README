@@ -1,2 +1,3 @@
-This repository contains the source code of the 'Hello' client-server tutorial
-written by Björn Döbel. Please find the document at 'doc/hello_tutorial.txt'.
+This repository contains the source code of the Utilization component.
+This component is connected to the monitor.
+The Utilization component computes the utilization of the system in an intervall of 1 second.
