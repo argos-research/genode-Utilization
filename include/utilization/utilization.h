@@ -30,6 +30,7 @@ class Utilization
 		int util1;
 		int util2;
 		int util3;
+		long long unsigned val;
 		
 };
 }
