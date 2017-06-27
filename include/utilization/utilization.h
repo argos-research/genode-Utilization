@@ -12,7 +12,6 @@
 #include <cap_session/connection.h>
 #include <trace_session/connection.h>
 #include <base/thread_state.h>
-#include <base/native_types.h>
 
 namespace Utilization{
 class Utilization
