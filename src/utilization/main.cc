@@ -14,7 +14,7 @@ namespace Utilization {
 		private:
 			Utilization* _util=nullptr;
 		public:
-			double utilization(int core) {
+			int utilization(int core) {
 				return _util->utilization(core);			
 			}
 

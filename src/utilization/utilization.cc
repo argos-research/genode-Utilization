@@ -11,7 +11,7 @@
 namespace Utilization{
 	Utilization::Utilization() {}
 
-	double Utilization::utilization(int core) {
+	int Utilization::utilization(int core) {
 		switch(core){
 			case 0: return util0;
 			case 1: return util1;
@@ -24,9 +24,11 @@ namespace Utilization{
 	void Utilization::compute() {
 		Mon_manager::Connection mon_manager;
 		Timer::Connection timer;
-		int timestamp=1000;
+		int time_to_wait=1000;
 		while(true) {
-			timer.msleep(timestamp);
+			int time_before=timer.elapsed_ms();
+			timer.msleep(time_to_wait);
+			int timestamp=timer.elapsed_ms()-time_before;
 			unsigned long long tmp0=mon_manager.get_idle_time(0).value;
 			unsigned long long tmp1=mon_manager.get_idle_time(1).value;
 			unsigned long long tmp2=mon_manager.get_idle_time(2).value;
@@ -39,7 +41,7 @@ namespace Utilization{
 			util1=100-(tmp1-prev1)/(10*timestamp);
 			util2=100-(tmp2-prev2)/(10*timestamp);
 			util3=100-(tmp3-prev3)/(10*timestamp);
-			//Genode::printf("util: %d %d %d %d\n",util0,util1,util2,util3);
+			Genode::printf("elapsed_time: %d util: %d %d %d %d\n",timestamp,util0,util1,util2,util3);
 			prev0=tmp0;
 			prev1=tmp1;
 			prev2=tmp2;

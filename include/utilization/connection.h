@@ -1,3 +1,4 @@
+#pragma once
 
 #include <utilization/client.h>
 #include <base/connection.h>

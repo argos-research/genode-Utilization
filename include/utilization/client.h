@@ -11,7 +11,7 @@ namespace Utilization {
 		Session_client(Genode::Capability<Session> cap)
 		: Genode::Rpc_client<Session>(cap) { }
 
-		double utilization(int core)
+		int utilization(int core)
 		{
 			return call<Rpc_utilization>(core);
 		}

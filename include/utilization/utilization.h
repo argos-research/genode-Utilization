@@ -19,7 +19,7 @@ class Utilization
 {
 	public:
 		Utilization();
-		double utilization(int core);
+		int utilization(int core);
 		void compute();
 	private:
 		unsigned long long prev0;
