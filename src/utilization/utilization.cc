@@ -39,7 +39,7 @@ namespace Utilization{
 			util2=100-(tmp2-prev2)/(10*timestamp);
 			util3=100-(tmp3-prev3)/(10*timestamp);
 
-			Genode::printf("utilization core0: %d core1: %d\n",util0,util1);
+			//Genode::printf("utilization core0: %d core1: %d\n",util0,util1);
 
 			prev0=tmp0;
 			prev1=tmp1;
