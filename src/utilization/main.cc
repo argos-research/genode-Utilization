@@ -33,7 +33,7 @@ namespace Utilization {
 
 			Session_component *_create_session(const char *args)
 			{
-				PDBG("creating hello session.");
+				Genode::log("creating hello session.");
 				return new (md_alloc()) Session_component(_util);
 			}
 
@@ -44,7 +44,7 @@ namespace Utilization {
 					Utilization* util)
 			: Genode::Root_component<Session_component>(ep, allocator)
 			{
-				PDBG("Creating root component.");
+				Genode::log("Creating root component.");
 				_util=util;
 			}
 	};

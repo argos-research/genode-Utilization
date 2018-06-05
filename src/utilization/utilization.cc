@@ -22,7 +22,7 @@ namespace Utilization{
 
 	void Utilization::compute() {
 		Mon_manager::Connection mon_manager;
-		Timer::Connection timer;
+		Timer::Connection timer {_env};
 		int timestamp=1000;
 		while(true) {
 			timer.msleep(timestamp);

@@ -4,12 +4,13 @@
 #include "mon_manager/mon_manager_client.h"
 #include "mon_manager/mon_manager.h"
 #include <base/signal.h>
-#include <os/attached_ram_dataspace.h>
+//#include <os/attached_ram_dataspace.h>
+#include <base/attached_ram_dataspace.h>
 #include <os/server.h>
 #include <root/component.h>
 #include <timer_session/connection.h>
 #include <util/string.h>
-#include <cap_session/connection.h>
+//#include <cap_session/connection.h>
 #include <trace_session/connection.h>
 #include <base/thread_state.h>
 
