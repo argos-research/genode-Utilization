@@ -6,9 +6,10 @@
 #include <util/xml_generator.h>
 #include <string>
 #include <util/string.h>
-#include <os/config.h>
+//#include <os/config.h>
 namespace Utilization{
-	Utilization::Utilization() {}
+	Utilization::Utilization(Genode::Env &env): _env(env)
+	{}
 
 	double Utilization::utilization(int core) {
 		switch(core){
@@ -45,7 +46,7 @@ namespace Utilization{
 			prev1=tmp1;
 			prev2=tmp2;
 			prev3=tmp3;
-			long long unsigned tmp;
+			//long long unsigned tmp;
   			/*asm volatile ("mrc p15, 0, %0, c9, c13, 0" : "=r" (tmp));
 			PDBG("Clock Cycle Counter %llu\n", tmp);
 			PDBG("%llu MHz\n", (tmp-val)/timestamp/1000);

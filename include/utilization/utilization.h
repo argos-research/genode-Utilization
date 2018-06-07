@@ -18,19 +18,20 @@ namespace Utilization{
 class Utilization
 {
 	public:
-		Utilization();
+		Genode::Env &_env;
+		Utilization(Genode::Env &env);
 		double utilization(int core);
 		void compute();
 	private:
-		unsigned long long prev0;
-		unsigned long long prev1;
-		unsigned long long prev2;
-		unsigned long long prev3;
-		int util0;
-		int util1;
-		int util2;
-		int util3;
-		long long unsigned val;
+		unsigned long long prev0 {};
+		unsigned long long prev1 {};
+		unsigned long long prev2 {};
+		unsigned long long prev3 {};
+		int util0 {};
+		int util1 {};
+		int util2 {};
+		int util3 {};
+		long long unsigned val {};
 		
 };
 }
