@@ -1,7 +1,8 @@
 #include <base/printf.h>
 #include <base/env.h>
 #include <base/sleep.h>
-#include <cap_session/connection.h>
+//#include <cap_session/connection.h>
+#include <base/component.h>
 #include <root/component.h>
 #include <base/rpc_server.h>
 #include <utilization/utilization.h>
@@ -14,6 +15,7 @@ namespace Utilization {
 		private:
 			Utilization* _util=nullptr;
 		public:
+			enum { CAP_QUOTA = 2 };
 			double utilization(int core) {
 				return _util->utilization(core);			
 			}
@@ -23,6 +25,8 @@ namespace Utilization {
 			{
 				_util = util;
 			}
+			Session_component(const Session_component&);
+			Session_component& operator = (const Session_component&);	
 	};
 
 	class Root_component : public Genode::Root_component<Session_component>
@@ -31,44 +35,48 @@ namespace Utilization {
 			Utilization* _util=nullptr;
 		protected:
 
-			Session_component *_create_session(const char *args)
+			Session_component *_create_session(const char *)
 			{
-				PDBG("creating hello session.");
+				Genode::log("creating hello session.");
 				return new (md_alloc()) Session_component(_util);
 			}
 
 		public:
 
-			Root_component(Genode::Rpc_entrypoint *ep,
-			               Genode::Allocator *allocator,
+			Root_component(Genode::Entrypoint &ep,
+			               Genode::Allocator &allocator,
 					Utilization* util)
 			: Genode::Root_component<Session_component>(ep, allocator)
 			{
-				PDBG("Creating root component.");
+				Genode::log("Creating root component.");
 				_util=util;
 			}
+			Root_component(const Root_component&);
+			Root_component& operator = (const Root_component&);
 	};
 }
 
 
 using namespace Genode;
 
-int main(void)
-{
-	Utilization::Utilization util;
+struct Main
+{	
+	Genode::Env &_env;
+	Genode::Entrypoint &_ep;
+	Utilization::Utilization util {_env};
 
 	/*
 	 * Get a session for the parent's capability service, so that we
 	 * are able to create capabilities.
 	 */
-	Cap_connection cap;
+	//Cap_connection cap;
 
 	/*
 	 * A sliced heap is used for allocating session objects - thereby we
 	 * can release objects separately.
 	 */
-	static Sliced_heap sliced_heap(env()->ram_session(),
-	                               env()->rm_session());
+	Genode::Sliced_heap sliced_heap{_env.ram(),
+	                               _env.rm()};
 
 	/*
 	 * Create objects for use by the framework.
@@ -81,16 +89,21 @@ int main(void)
 	 * string argument is the name of the entry point, used for
 	 * debugging purposes only.
 	 */
-	enum { STACK_SIZE = 4096 };
-	static Rpc_entrypoint ep(&cap, STACK_SIZE, "utilitzation_ep");
+	//enum { STACK_SIZE = 4096 };
+	//static Rpc_entrypoint ep(&cap, STACK_SIZE, "utilitzation_ep");
 
-	static Utilization::Root_component utilization_root(&ep, &sliced_heap, &util);
-	env()->parent()->announce(ep.manage(&utilization_root));
+	Utilization::Root_component _utilization_root {_ep, sliced_heap, &util};
+	
+	Main(Genode::Env &env) : _env(env), _ep(_env.ep()){
+		util.compute();
+		_env.parent().announce(_ep.manage(_utilization_root));
 
-	util.compute();
+	}
+
 
 	/* We are done with this and only act upon client requests now. */
-	sleep_forever();
+	
 
-	return 0;
-}
+};
+
+void Component::construct(Genode::Env &env) { static Main main(env); }
