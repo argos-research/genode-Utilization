@@ -6,6 +6,7 @@
 #include <root/component.h>
 #include <base/rpc_server.h>
 #include <utilization/utilization.h>
+#include <libc/component.h>
 #include <utilization/utilization_session.h>
 
 namespace Utilization {
@@ -61,7 +62,7 @@ using namespace Genode;
 
 struct Main
 {	
-	Genode::Env &_env;
+	Libc::Env &_env;
 	Genode::Entrypoint &_ep;
 	Utilization::Utilization util {_env};
 
@@ -94,7 +95,7 @@ struct Main
 
 	Utilization::Root_component _utilization_root {_ep, sliced_heap, &util};
 	
-	Main(Genode::Env &env) : _env(env), _ep(_env.ep()){
+	Main(Libc::Env &env) : _env(env), _ep(_env.ep()){
 		util.compute();
 		_env.parent().announce(_ep.manage(_utilization_root));
 
@@ -106,4 +107,8 @@ struct Main
 
 };
 
-void Component::construct(Genode::Env &env) { static Main main(env); }
+//void Component::construct(Genode::Env &env) { static Main main(env); }
+void Libc::Component::construct(Libc::Env &env)
+{
+	Libc::with_libc([&] () { static Main main(env); });
+}
