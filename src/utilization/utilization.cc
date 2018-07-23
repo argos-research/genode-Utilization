@@ -9,9 +9,7 @@
 //#include <os/config.h>
 namespace Utilization{
 	Utilization::Utilization(Genode::Env &env): _env(env)
-	{
-		Genode::log("Utilization constructor");
-	}
+	{ }
 
 	double Utilization::utilization(int core) {
 		switch(core){
@@ -24,7 +22,7 @@ namespace Utilization{
 	}
 
 	void Utilization::compute() {
-		Mon_manager::Connection mon_manager;
+		Mon_manager::Connection mon_manager {_env};
 		Timer::Connection timer {_env};
 		int timestamp=1000;
 		while(true) {
