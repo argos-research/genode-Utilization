@@ -9,7 +9,9 @@
 //#include <os/config.h>
 namespace Utilization{
 	Utilization::Utilization(Genode::Env &env): _env(env)
-	{}
+	{
+		Genode::log("Utilization constructor");
+	}
 
 	double Utilization::utilization(int core) {
 		switch(core){
@@ -31,16 +33,12 @@ namespace Utilization{
 			unsigned long long tmp1=mon_manager.get_idle_time(1).value;
 			unsigned long long tmp2=mon_manager.get_idle_time(2).value;
 			unsigned long long tmp3=mon_manager.get_idle_time(3).value;
-			//Genode::printf("%llu\n",tmp0);
-			//Genode::printf("%llu\n",prev0);
-			//Genode::printf("%llu\n",tmp1);
-			//Genode::printf("%llu\n",prev1);
 			util0=100-(tmp0-prev0)/(10*timestamp);
 			util1=100-(tmp1-prev1)/(10*timestamp);
 			util2=100-(tmp2-prev2)/(10*timestamp);
 			util3=100-(tmp3-prev3)/(10*timestamp);
 
-			//Genode::printf("utilization core0: %d core1: %d\n",util0,util1);
+			Genode::log("utilization core0: ", util0," core1: ",util1);
 
 			prev0=tmp0;
 			prev1=tmp1;
