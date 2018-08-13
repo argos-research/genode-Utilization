@@ -36,7 +36,7 @@ namespace Utilization{
 			util2=100-(tmp2-prev2)/(10*timestamp);
 			util3=100-(tmp3-prev3)/(10*timestamp);
 
-			Genode::log("utilization core0: ", util0," core1: ",util1);
+			//Genode::log("utilization core0: ", util0," core1: ",util1," core2: ",util2," core3: ",util3);
 
 			prev0=tmp0;
 			prev1=tmp1;
